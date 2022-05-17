@@ -1,24 +1,18 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# add database.yml file with postgres adapter
+# for create database
+# rails db:create
 
-Things you may want to cover:
+# for migrate database
+# rails fb:migrate
 
-* Ruby version
+# bundle install
 
-* System dependencies
+# for generate swagger json file
+# rake swagger:docs
 
-* Configuration
+# add submodule for swagger
+# git submodule add git@github.com:wordnik/swagger-ui.git swagger
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# rails server 

@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
-  get '/api' => redirect('/public/api_html/dist/index.html?url=/apidocs/api-docs.json')
+  # get '/api' => redirect('/swagger/dist/index.html?url=/apidocs/api-docs.json')
+  get '/docs' => redirect('/api_html/dist/index.html?url=/apidocs/api-docs.json')
 
   devise_for :users
   root "home#index"
 
-  
   namespace :api, format: [:json] do
     namespace :v1 do
       resource :user, only: [:show, :update]

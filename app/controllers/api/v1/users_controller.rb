@@ -1,13 +1,26 @@
 class Api::V1::UsersController < Api::ApplicationController
 
+  def self.add_common_params(api)
+    api.param :form, "user[name]", :string, :optional, "name"
+    api.param :form, "user[email]", :string, :optional, "email"
+  end
+
   swagger_controller :users, 'Users'
 
   swagger_api :show do
     summary 'return user detail '
-    notes 'Notes...'
   end
 
   def show
+  end
+
+  swagger_api :update do |api|
+    summary 'update user detail '
+    Api::V1::UsersController::add_common_params(api)
+    response :unauthorized
+    response :not_acceptable
+    response :unprocessable_entity    
+    response :not_found
   end
 
   def update

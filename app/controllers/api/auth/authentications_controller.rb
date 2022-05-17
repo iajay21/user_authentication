@@ -1,6 +1,24 @@
 class Api::Auth::AuthenticationsController < Api::ApplicationController
   skip_before_action :authenticate_user_from_token, only: [:signup, :signin]
 
+  swagger_controller :authentications, 'Authentications'
+
+  def self.add_common_params(api)
+    api.param :form, "user[email]", :string, :optional, "email"
+    api.param :form, "user[password]", :string, :optional, "password"
+  end
+
+  swagger_api :signup do
+    summary 'User Sign Up'
+    param :form, "user[name]", :string, :required, "name"
+    param :form, "user[email]", :string, :required, "email"
+    param :form, "user[password]", :string, :required, "password"
+    param :form, "user[password_confirmation]", :string, :required, "password confirmation"
+    response :ok
+    response :not_acceptable
+    response :unprocessable_entity
+  end
+
   def signup
     user = User.new(signup_params)
     if user.save
@@ -12,6 +30,15 @@ class Api::Auth::AuthenticationsController < Api::ApplicationController
     else
       render json: {errors: user.errors.full_messages}, status: 400
     end
+  end
+
+  swagger_api :signin do |api|
+    summary 'User Sign In'
+    Api::Auth::AuthenticationsController::add_common_params(api)
+    response :unauthorized
+    response :not_acceptable
+    response :unprocessable_entity    
+    response :not_found
   end
 
   def signin
@@ -35,6 +62,14 @@ class Api::Auth::AuthenticationsController < Api::ApplicationController
     else
       render json: {error: "user not found" }, status: 404
     end
+  end
+
+  swagger_api :renew_token do
+    summary 'User Renew Token'
+    param :header, 'Authorization', :string, :required, 'Authentication Token'
+    response :unauthorized
+    response :unprocessable_entity    
+    response :not_found
   end
 
   def renew_token
