@@ -1,0 +1,6 @@
+<h2><%= current_user.name %></h2>
+<% if current_user.avatar.attached? %>
+	<%= image_tag current_user.avatar %>
+<% end %>
+</br>
+<%= link_to "Sign Out", destroy_user_session_path, :method => :delete %>
